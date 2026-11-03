@@ -163,15 +163,15 @@ h3 { font-family: var(--display); font-weight: 400; margin: 0; text-shadow: var(
 /* Logo */
 #logo { font-family: var(--display); font-weight: 400; font-size: clamp(64px, 19vw, 104px); line-height: .95; margin: 6px 0 0;
   display: flex; justify-content: center; gap: 2px; letter-spacing: 1px; }
-#logo span { display: inline-block; -webkit-text-stroke: 10px var(--line); paint-order: stroke fill;
+#logo span, .logo-mini span { display: inline-block; -webkit-text-stroke: 10px var(--line); paint-order: stroke fill;
   text-shadow: 0 6px 0 var(--line), 0 9px 0 rgba(14, 8, 40, .5); animation: wob 2.6s ease-in-out infinite;
   background: linear-gradient(180deg, #fff 0%, var(--c) 42%, var(--c) 100%); -webkit-background-clip: text; background-clip: text; }
-#logo span:nth-child(1) { --c: var(--pink); color: var(--pink); }
-#logo span:nth-child(2) { --c: var(--yellow); color: var(--yellow); animation-delay: -.5s; }
-#logo span:nth-child(3) { --c: var(--cyan); color: var(--cyan); animation-delay: -1s; }
-#logo span:nth-child(4) { --c: var(--lime); color: var(--lime); animation-delay: -1.5s; }
-#logo span:nth-child(5) { --c: #FF8A3D; color: #FF8A3D; animation-delay: -2s; }
-#logo span:nth-child(6) { --c: #fff; color: #fff; animation-delay: -2.5s; }
+#logo span:nth-child(1), .logo-mini span:nth-child(1) { --c: var(--pink); color: var(--pink); }
+#logo span:nth-child(2), .logo-mini span:nth-child(2) { --c: var(--yellow); color: var(--yellow); animation-delay: -.5s; }
+#logo span:nth-child(3), .logo-mini span:nth-child(3) { --c: var(--cyan); color: var(--cyan); animation-delay: -1s; }
+#logo span:nth-child(4), .logo-mini span:nth-child(4) { --c: var(--lime); color: var(--lime); animation-delay: -1.5s; }
+#logo span:nth-child(5), .logo-mini span:nth-child(5) { --c: #FF8A3D; color: #FF8A3D; animation-delay: -2s; }
+#logo span:nth-child(6), .logo-mini span:nth-child(6) { --c: #fff; color: #fff; animation-delay: -2.5s; }
 .tagline { text-align: center; margin: 4px 0 0; font-family: var(--display); font-size: 16px; color: var(--ink2); letter-spacing: .5px; text-shadow: 0 2px 0 var(--line); }
 #ringSlot { flex: 1; min-height: 170px; }
 .home-bottom { display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 4px; }
@@ -555,13 +555,14 @@ canvas#game, .overlay, #hud, #opener, #studio { bottom: auto; height: var(--appH
   #tabbar { padding-block: 10px calc(8px + var(--sab)); }
 }
 
+/* Buntes Spinty-Logo klein (Info-Fenster) */
+.logo-mini { font-family: var(--display); font-weight: 400; font-size: 52px; line-height: 1; margin: 2px 0 8px;
+  display: flex; justify-content: center; gap: 1px; letter-spacing: 1px; }
+.logo-mini span { -webkit-text-stroke-width: 7px; text-shadow: 0 4px 0 var(--line), 0 6px 0 rgba(14, 8, 40, .5); }
+
 </style>
 </head>
 <body>
-<div id="studio" aria-label="Nicolando präsentiert">
-  <div class="st-logo"><span style="--d:0">N</span><span style="--d:1">I</span><span style="--d:2">C</span><span class="o" style="--d:3"><i class="st-ring"></i></span><span style="--d:4">L</span><span style="--d:5">A</span><span style="--d:6">N</span><span style="--d:7">D</span><span class="o" style="--d:8"><i class="st-ring"></i></span></div>
-  <div class="st-sub">präsentiert</div>
-</div>
 <canvas id="game" aria-label="Spielfeld"></canvas>
 
 <div id="ui">
@@ -580,7 +581,6 @@ canvas#game, .overlay, #hud, #opener, #studio { bottom: auto; height: var(--appH
       <p class="tagline">Dreh den Ring. Fang die Farbe.</p>
       <div id="ringSlot"></div>
       <div class="home-bottom">
-        <div class="np" id="nowPlaying" hidden><span data-icon="music"></span><span class="ol notr" id="npName"></span></div>
         <div class="week" id="week"></div>
         <div class="modes">
           <button class="btn b mode" id="dailyBtn"><span class="mi" data-icon="calendar"></span><span class="mt"><b>Tages-Spin</b><small id="dailySub">1 Versuch</small></span></button>
@@ -729,18 +729,15 @@ canvas#game, .overlay, #hud, #opener, #studio { bottom: auto; height: var(--appH
 <!-- Über -->
 <div class="overlay" id="about" hidden>
   <div class="card">
-    <div class="st-logo small"><span style="--d:0">N</span><span style="--d:1">I</span><span style="--d:2">C</span><span class="o" style="--d:3"><i class="st-ring"></i></span><span style="--d:4">L</span><span style="--d:5">A</span><span style="--d:6">N</span><span style="--d:7">D</span><span class="o" style="--d:8"><i class="st-ring"></i></span></div>
-    <h2>Spinty</h2>
+    <h2 class="logo-mini notr" aria-label="Spinty"><span>S</span><span>P</span><span>I</span><span>N</span><span>T</span><span>Y</span></h2>
     <h3 class="set-h">Sprache</h3>
     <div class="langs notr" id="langList"></div>
-    <p class="sub">Ein Spiel von <b>Nicolando</b>.<br>Ausgedacht und gebaut von Nico.</p>
+    <p class="sub">Ein Spiel von <b class="notr">Nico</b>.</p>
     <div class="about-list">
-      <div><span>Studio</span><b>Nicolando</b></div>
       <div><span>Entwickler</span><b>Nico</b></div>
       <div><span>Musik &amp; Sounds</span><b>live im Spiel erzeugt</b></div>
       <div><span>Version</span><b>1.0</b></div>
     </div>
-    <p class="sub">Folg uns für neue Bälle, Events und Challenges: <b>@nicolando</b></p>
     <button class="btn g big small" id="aboutClose">SUPER</button>
   </div>
 </div>
@@ -2013,7 +2010,7 @@ const G = {
 };
 function measure() { const r = $('#ringSlot').getBoundingClientRect(); if (r.height > 0) slot = { top: r.top, h: r.height, w: r.width, cy: r.top + r.height / 2 }; }
 function target() {
-  if (G.mode === 'home') { TGT.R = Math.max(40, Math.min(slot.w * 0.9, slot.h) * 0.33); TGT.cy = slot.cy; }
+  if (G.mode === 'home') { TGT.R = Math.max(40, Math.min(slot.w * 0.9 * 0.33, slot.h * 0.35)); TGT.cy = slot.top + slot.h * 0.54; }
   else { TGT.R = Math.min(W * 0.27, H * 0.17); TGT.cy = H * 0.56; }
 }
 // Volle Bildschirmauflösung (auch 3x-Displays) und Zoom der Ansicht berücksichtigen, damit der Ring gestochen scharf ist
@@ -3177,27 +3174,12 @@ window.addEventListener('spinty-lang', () => { renderTop(); renderHome(); if (G.
 $('#aboutBtn').onclick = () => { sfx.click(); renderLangs(); $('#about').hidden = false; };
 $('#aboutClose').onclick = () => { $('#about').hidden = true; };
 /* Nicolando-Startlogo */
-(function studioIntro() {
-  const st = $('#studio'); if (!st) return;
-  let done = false;
-  const hide = () => { if (done) return; done = true; st.classList.add('out'); setTimeout(() => st.remove(), 500); };
-  const jingle = () => { if (!AC || AC.state !== 'running') return; [0, 4, 7, 12].forEach((s, i) => tone(523 * Math.pow(2, s / 12), 0.22, 'triangle', 0.12, 0, i * 0.09)); tone(1046, 0.5, 'sine', 0.08, 0, 0.4); };
-  setTimeout(jingle, 700);
-  setTimeout(hide, 2600);
-  st.addEventListener('pointerdown', () => { ac(); hide(); });
-})();
 $('#powerBtn').onclick = () => { shopSub = 'powers'; setTab('shop'); };
 $('#soundBtn').onclick = () => { S.sound = !S.sound; save(); renderHome(); sfx.click(); };
 $('#musicBtn').onclick = () => {
   S.music = !S.music; save(); ac(); M.setOn(S.music); if (S.music && G.mode === 'home') M.lobby(); renderHome();
   toast(S.music ? 'Musik an' : 'Musik aus');
 };
-let npT = 0;
-M.onNowPlaying(name => {
-  const el = $('#nowPlaying'); $('#npName').textContent = name; el.hidden = false;
-  el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
-  clearTimeout(npT); npT = setTimeout(() => { el.hidden = true; }, 6000);
-});
 document.addEventListener('pointerdown', () => { ac(); if (G.mode === 'home') M.lobby(); }, { once: true, capture: true });
 $('#streakPill').onclick = () => {
   const s = liveStreak();
