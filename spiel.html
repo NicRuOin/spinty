@@ -2044,7 +2044,9 @@ function wantDPR() {
   return Math.max(1, Math.min(4, (window.devicePixelRatio || 1) * z));
 }
 /* iPhone-Web-App (vom Home-Bildschirm): iOS meldet dort eine zu kleine Höhe -> unten bliebe eine Lücke */
-const STANDALONE = !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
+const IOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+// Nur iPhone/iPad: Android zählt die System-Leisten in screen.height mit, dort stimmt innerHeight schon
+const STANDALONE = IOS && !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
 const hProbe = document.createElement('div');
 hProbe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100vh;height:100lvh;visibility:hidden;pointer-events:none';
 document.body.appendChild(hProbe);
