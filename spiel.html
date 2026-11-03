@@ -1710,10 +1710,10 @@ const DEF = {
   inv: { zeitlupe: 2, schild: 2, eis: 1, bombe: 1, joker: 1, gold: 1, herz: 1 }, load: ['zeitlupe', 'schild', 'eis'],
 };
 const clone = o => JSON.parse(JSON.stringify(o));
-let S = clone(DEF);
+let S = clone(DEF), NEW_PLAYER = true;
 try {
   const raw = localStorage.getItem(KEY);
-  if (raw) { const o = JSON.parse(raw); S = Object.assign(clone(DEF), o); S.eq = Object.assign(clone(DEF.eq), o.eq || {}); }
+  if (raw) { NEW_PLAYER = false; const o = JSON.parse(raw); S = Object.assign(clone(DEF), o); S.eq = Object.assign(clone(DEF.eq), o.eq || {}); }
 } catch (e) { /* ohne Speicher spielen */ }
 for (const c of ['bg', 'ball', 'fx']) if (!BY[S.eq[c]]) S.eq[c] = DEF.eq[c];
 S.owned = S.owned.filter(id => BY[id]);
@@ -1722,6 +1722,17 @@ if (!S.play || typeof S.play !== 'object') S.play = clone(DEF.play);
 if (!Array.isArray(S.miles)) S.miles = [];
 S.inv = Object.assign(Object.fromEntries(POWERS.map(p => [p.id, 0])), S.inv || clone(DEF.inv));
 S.load = (Array.isArray(S.load) ? S.load : clone(DEF.load)).filter(id => ACTIVE_POWERS.includes(id)).slice(0, 3);
+/* ================= Statistik (anonym: keine ID, kein Name – nur Zahlen) ================= */
+const STATS = { url: 'https://fpuudvuaoofauovgodtb.supabase.co/rest/v1/events', key: 'sb_publishable_wDPJkRbeg6IK7xTxC_gwIQ_-rmjx4v8' };
+const PLATFORM = (() => { const C = window.Capacitor; const p = C && C.getPlatform ? C.getPlatform() : 'web'; return ['ios', 'android'].includes(p) ? p : 'web'; })();
+function track(kind, d = {}) {
+  if (/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) return;   // eigene Tests nicht mitzählen
+  try {
+    fetch(STATS.url, { method: 'POST', keepalive: true,
+      headers: { apikey: STATS.key, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify(Object.assign({ kind }, d)) }).catch(() => {});
+  } catch (e) { /* ohne Internet einfach nichts senden */ }
+}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ignorieren */ } }
 
 /* ================= Datum & Serie ================= */
@@ -2336,6 +2347,7 @@ function vsUpdate(dt) {
   if (dead[0] || dead[1]) {
     VS.phase = 'end'; VS.winner = dead[0] && dead[1] ? -1 : dead[0] ? 1 : 0;
     if (VS.winner >= 0) VS.wins[VS.winner]++;
+    track('round', { mode: 'vs' });
     sfx.fail(); buzz('HEAVY'); M.death(); vsScore();
     setTimeout(() => { if (VS.phase === 'end' && G.mode === 'versus') { $('#vsAgain').hidden = false; M.jingle(true); } }, 900);
   }
@@ -2691,7 +2703,7 @@ const OP = { shakeDur: 0.28, big: false, lift: 0, hyped: false, ch: null, drops:
 const later = (fn, ms) => OP.timers.push(setTimeout(fn, ms));
 const easeOutBack = k => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
 function openScene(ch, drops) {
-  ac();
+  ac(); track('chest', { item: String(ch.id || '').slice(0, 24) });
   OP.timers.forEach(clearTimeout); OP.timers = [];
   Object.assign(OP, { ch, drops, i: -1, state: 'drop', ps: [], ph: 'idle', pt: 0, ang: 30, vel: 60, sc: 1, open: 0, shk: 0, to: 0 });
   const op = $('#opener'); op.hidden = false; op.style.setProperty('--ray', '#ffffff'); M.duck(true);
@@ -2978,6 +2990,7 @@ function endSpecial() {
   if (extended && STREAK_GEMS[S.streak]) S.gems += STREAK_GEMS[S.streak];
   let html;
   if (G.gm === 'daily') {
+    track('round', { mode: 'daily', score: sc, streak: S.streak, first_today: extended });
     const no = dailyNo(), first = !dailyDone();
     S.daily = { day: t, score: sc, no };
     const coins = first ? sc : 0, gems = first ? 1 : 0; S.coins += coins; S.gems += gems;
@@ -2987,6 +3000,7 @@ function endSpecial() {
       <div class="col"><div class="bob"><button class="btn b big" id="spShare">TEILEN</button></div><button class="link" id="menuBtn">Zum Menü</button></div>`;
     M.jingle(sc > 0);
   } else {
+    track('round', { mode: 'duel', diff: G.diffOv, score: sc, streak: S.streak, first_today: extended });
     const won = G.target ? sc > G.target : false, tie = G.target && sc === G.target, code = duelCode(G.seed, G.diffOv, sc);
     G.lastCode = code; S.coins += sc;
     html = `<div class="over-title${won ? ' record' : ''}">${G.target ? (won ? 'Duell gewonnen!' : tie ? 'Unentschieden!' : 'Duell verloren') : 'Dein Duell steht'}</div>
@@ -3009,6 +3023,7 @@ function endRound() {
   S.best = Math.max(S.best, sc);
   S.rounds++;
   const extended = bumpStreak();
+  track('round', { mode: 'normal', diff: S.diff, score: sc, streak: S.streak, first_today: extended });
   const earned = Math.round(sc * D_().coinMul) + st.stars * 2;
   const gemRows = [];
   if (extended && STREAK_GEMS[S.streak]) { S.gems += STREAK_GEMS[S.streak]; gemRows.push([`${S.streak} Tage Serie`, STREAK_GEMS[S.streak]]); }
@@ -3065,7 +3080,7 @@ const dailyText = sc => `Spinty Tages-Spin #${dailyNo()}: ${sc} Punkte\n${colorR
 const duelText = (sc, code) => `Ich fordere dich in Spinty heraus: ${sc} Punkte.\nDuell-Code: ${code}\nGib den Code bei „Duell“ ein und schlag mich! ${SHARE_URL}?duell=${code}`;
 async function shareResult(sc, diffName, best) { return doShare(shareText(sc, diffName, best)); }
 async function doShare(text) {
-  text = Tl(text);
+  text = Tl(text); track('share');
   const SH = capPlug('Share');
   try {
     if (SH) { await SH.share({ title: 'Spinty', text, dialogTitle: T('Ergebnis teilen') }); return; }
@@ -3170,6 +3185,7 @@ addEventListener('resize', resize);
 if (window.visualViewport) visualViewport.addEventListener('resize', resize);
 setInterval(() => { if (Math.abs(wantDPR() - DPR) > 0.01 || innerWidth !== W || innerHeight !== H) resize(); }, 500);
 ensureQuests(); resize(); renderTop(); renderHome(); scheduleReminders();
+track('open', { new_player: NEW_PLAYER, lang: window.I18N ? I18N.lang : null, platform: PLATFORM });
 setInterval(() => { if (G.tab === 'quests' && !$('#p-quests').hidden) updTimer(); }, 20000);
 if (document.fonts && document.fonts.load) document.fonts.load("40px 'Lilita One'");
 
