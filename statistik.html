@@ -39,6 +39,8 @@
   button { font: inherit; font-weight: 800; padding: 12px; border-radius: 12px; border: 0; background: var(--bar); color: #2A1766; }
   .err { color: #FF9DBB; } .hint { color: var(--muted); font-size: 13px; }
   a { color: var(--bar); }
+  .rl { width: 44px; height: 44px; padding: 0; font-size: 24px; line-height: 1; border-radius: 50%; flex: none; }
+  .rl.spin { animation: rl .6s linear; } @keyframes rl { to { transform: rotate(360deg); } }
   .live { display: flex; align-items: center; gap: 14px; }
   .live b { display: block; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
   .live span { color: var(--muted); font-size: 14px; }
@@ -49,7 +51,8 @@
 </head>
 <body>
 <main>
-  <div class="top"><h1>Spinity Statistik</h1><small id="upd"></small></div>
+  <div class="top"><h1>Spinity Statistik</h1><button id="reload" class="rl" aria-label="Aktualisieren">↻</button></div>
+  <p class="hint" id="upd" style="margin:-6px 0 4px"></p>
 
   <section id="login" hidden>
     <form id="f">
@@ -136,12 +139,12 @@ async function load() {
   let r;
   try {
     r = await fetch(URL_, { method: 'POST', headers: { apikey: KEY_, 'Content-Type': 'application/json' }, body: JSON.stringify({ key }) });
-  } catch (e) { $('#upd').textContent = 'Keine Verbindung'; return; }
+  } catch (e) { $('#upd').textContent = 'Keine Verbindung – tippe auf ↻'; return; }
   if (!r.ok) { try { localStorage.removeItem(LS); } catch (e) {} key = ''; $('#out').hidden = true; $('#login').hidden = false; $('#err').hidden = false; return; }
   try { localStorage.setItem(LS, key); } catch (e) {}
   const s = await r.json();
   $('#login').hidden = true; $('#out').hidden = false;
-  $('#upd').textContent = 'Stand ' + new Date(s.jetzt).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  $('#upd').textContent = 'Stand ' + new Date(s.jetzt).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' · aktualisiert sich alle 15 Sekunden';
   $('#online').textContent = fmt(s.online); $('.dotlive').classList.toggle('off', !s.online);
   tiles($('#today'), [[s.heute.spieler, 'Spieler'], [s.heute.neu, 'neue Spieler'], [s.heute.runden, 'Runden'], [s.heute.kisten, 'Kisten']]);
   tiles($('#total'), [[s.gesamt.neu, 'Spieler insgesamt'], [s.gesamt.runden, 'Runden'], [s.gesamt.kisten, 'Kisten'], [s.gesamt.hoechste_serie, 'längste Serie (Tage)']]);
@@ -154,7 +157,12 @@ async function load() {
 $('#f').onsubmit = e => { e.preventDefault(); key = $('#k').value.trim(); $('#err').hidden = true; load(); };
 $('#logout').onclick = e => { e.preventDefault(); try { localStorage.removeItem(LS); } catch (x) {} location.reload(); };
 load();
-setInterval(() => { if (key && !document.hidden) load(); }, 30000);
+setInterval(() => { if (key && !document.hidden) load(); }, 15000);
+// Beim Zurückkehren in die App (iPhone pausiert Timer im Hintergrund) sofort neu laden
+document.addEventListener('visibilitychange', () => { if (key && !document.hidden) load(); });
+addEventListener('pageshow', () => { if (key) load(); });
+addEventListener('focus', () => { if (key) load(); });
+$('#reload').onclick = () => { const b = $('#reload'); b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin'); if (key) load(); };
 </script>
 </body>
 </html>
