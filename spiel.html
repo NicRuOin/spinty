@@ -1822,7 +1822,7 @@ const PLAY_MILES = [{ min: 15, gems: 2 }, { min: 30, gems: 5 }];
 const STREAK_GEMS = { 3: 3, 7: 10, 14: 15, 30: 30 };
 const QUEST_BONUS_GEMS = 2;
 // Kisten-Extras (Prozent pro Gegenstand-Platz)
-const EXTRAS = { bg: { coins: 6, gems: 1.5 }, ball: { coins: 6, gems: 1.5 }, mega: { coins: 8, gems: 2 } };
+const EXTRAS = { bg: { coins: 2, gems: 1.5 }, ball: { coins: 2, gems: 1.5 }, mega: { coins: 3.5, gems: 2 } };   // 500-Münzen-Jackpot: seltener als Legendär, häufiger als Kosmisch
 const GEM_DROPS = [5, 10, 15];
 // Für später: Werbung und echter Gem-Shop. Erst einschalten, wenn ein Werbe-/Kauf-Anbieter eingebaut ist.
 const ADS = { enabled: false, firstChestOfDay: true, weakPowerups: ['zeitlupe', 'eis'] };
@@ -1878,7 +1878,7 @@ const CHESTS = [
     odds: { selten: 55, episch: 28, mythisch: 12, legendaer: 4, kosmisch: 1 }, colors: { a: '#3FF0E0', b: '#0A6F8C', trim: '#D6FFFB' } },
   { id: 'ball', name: 'Ball-Kiste', desc: 'Nur Ball-Designs', price: 100, cats: ['ball'], drops: 1,
     odds: { selten: 55, episch: 28, mythisch: 12, legendaer: 4, kosmisch: 1 }, colors: { a: '#FF6FA0', b: '#A3104A', trim: '#FFE0EC' } },
-  { id: 'mega', name: 'Wunderkiste', desc: 'Alles kann drin sein, auch Explosionen', price: 300, cats: ['bg', 'ball', 'fx'], drops: 3,
+  { id: 'mega', name: 'Wunderkiste', desc: 'Alles kann drin sein, auch Explosionen', price: 350, cats: ['bg', 'ball', 'fx'], drops: 3,
     odds: { selten: 45, episch: 30, mythisch: 16, legendaer: 7, kosmisch: 2 }, colors: { a: '#C47BFF', b: '#4A1A9E', trim: '#FFD84D', gem: true } },
 ];
 function chest3D(c) {
