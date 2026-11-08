@@ -39,6 +39,12 @@
   button { font: inherit; font-weight: 800; padding: 12px; border-radius: 12px; border: 0; background: var(--bar); color: #2A1766; }
   .err { color: #FF9DBB; } .hint { color: var(--muted); font-size: 13px; }
   a { color: var(--bar); }
+  .live { display: flex; align-items: center; gap: 14px; }
+  .live b { display: block; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .live span { color: var(--muted); font-size: 14px; }
+  .dotlive { width: 16px; height: 16px; border-radius: 50%; background: #2EE68A; box-shadow: 0 0 0 0 rgba(46, 230, 138, .6); animation: live 1.6s infinite; flex: none; }
+  .dotlive.off { background: var(--muted); animation: none; }
+  @keyframes live { 70% { box-shadow: 0 0 0 12px rgba(46, 230, 138, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 230, 138, 0); } }
 </style>
 </head>
 <body>
@@ -56,6 +62,9 @@
   </section>
 
   <div id="out" hidden>
+    <section class="live">
+      <div class="dotlive"></div><div><b id="online">0</b><span>gerade online</span></div>
+    </section>
     <section>
       <h2>Heute</h2>
       <div class="tiles" id="today"></div>
@@ -81,7 +90,7 @@
       <section><h2>Sprachen</h2><table><tbody id="langs"></tbody></table></section>
       <section><h2>Geräte</h2><table><tbody id="devs"></tbody></table></section>
     </div>
-    <p class="hint">„Spieler“ = Handys, die an dem Tag mindestens eine Runde gespielt haben. Alles anonym, ohne Namen. <a href="#" id="logout">Schlüssel vergessen</a></p>
+    <p class="hint">„Spieler“ = Handys, die an dem Tag mindestens eine Runde gespielt haben. „Gerade online“ = Spiel in den letzten 2 Minuten offen. Alles anonym, ohne Namen. <a href="#" id="logout">Schlüssel vergessen</a></p>
   </div>
 </main>
 <script>
@@ -133,6 +142,7 @@ async function load() {
   const s = await r.json();
   $('#login').hidden = true; $('#out').hidden = false;
   $('#upd').textContent = 'Stand ' + new Date(s.jetzt).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  $('#online').textContent = fmt(s.online); $('.dotlive').classList.toggle('off', !s.online);
   tiles($('#today'), [[s.heute.spieler, 'Spieler'], [s.heute.neu, 'neue Spieler'], [s.heute.runden, 'Runden'], [s.heute.kisten, 'Kisten']]);
   tiles($('#total'), [[s.gesamt.neu, 'Spieler insgesamt'], [s.gesamt.runden, 'Runden'], [s.gesamt.kisten, 'Kisten'], [s.gesamt.hoechste_serie, 'längste Serie (Tage)']]);
   chart(s.tage);
@@ -144,7 +154,7 @@ async function load() {
 $('#f').onsubmit = e => { e.preventDefault(); key = $('#k').value.trim(); $('#err').hidden = true; load(); };
 $('#logout').onclick = e => { e.preventDefault(); try { localStorage.removeItem(LS); } catch (x) {} location.reload(); };
 load();
-setInterval(() => { if (key && !document.hidden) load(); }, 60000);
+setInterval(() => { if (key && !document.hidden) load(); }, 30000);
 </script>
 </body>
 </html>

@@ -1762,12 +1762,14 @@ S.load = (Array.isArray(S.load) ? S.load : clone(DEF.load)).filter(id => ACTIVE_
 /* ================= Statistik (anonym: keine ID, kein Name – nur Zahlen) ================= */
 const STATS = { url: 'https://fpuudvuaoofauovgodtb.supabase.co/rest/v1/events', key: 'sb_publishable_wDPJkRbeg6IK7xTxC_gwIQ_-rmjx4v8' };
 const PLATFORM = (() => { const C = window.Capacitor; const p = C && C.getPlatform ? C.getPlatform() : 'web'; return ['ios', 'android'].includes(p) ? p : 'web'; })();
+// Sitzungs-Nummer nur im Arbeitsspeicher (wird nirgends gespeichert) – damit die Statistik „gerade online“ zählen kann
+const SESSION = Math.random().toString(36).slice(2, 10);
 function track(kind, d = {}) {
   if (/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) return;   // eigene Tests nicht mitzählen
   try {
     fetch(STATS.url, { method: 'POST', keepalive: true,
       headers: { apikey: STATS.key, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-      body: JSON.stringify(Object.assign({ kind }, d)) }).catch(() => {});
+      body: JSON.stringify(Object.assign({ kind, session: SESSION }, d)) }).catch(() => {});
   } catch (e) { /* ohne Internet einfach nichts senden */ }
 }
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ignorieren */ } }
@@ -3308,6 +3310,8 @@ if (window.visualViewport) visualViewport.addEventListener('resize', resize);
 setInterval(() => { if (Math.abs(wantDPR() - DPR) > 0.01 || innerWidth !== W || fullH() !== H) resize(); }, 500);
 ensureQuests(); resize(); renderTop(); renderHome(); scheduleReminders();
 track('open', { new_player: NEW_PLAYER, lang: window.I18N ? I18N.lang : null, platform: PLATFORM });
+setInterval(() => { if (!document.hidden) track('ping'); }, 60000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) track('ping'); });
 setInterval(() => { if (G.tab === 'quests' && !$('#p-quests').hidden) updTimer(); }, 20000);
 if (document.fonts && document.fonts.load) document.fonts.load("40px 'Lilita One'");
 
