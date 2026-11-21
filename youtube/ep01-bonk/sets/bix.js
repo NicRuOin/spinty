@@ -16,7 +16,7 @@ function box(w, h, d, m, y = 0) {
 const pivot = (x, y, z) => { const p = new THREE.Group(); p.position.set(x, y, z); return p; };
 
 // face drawn into a canvas texture: expressions 'happy' | 'sad' | 'angry' | 'shock'
-function faceTexture(skin) {
+export function faceTexture(skin) {
   const tex = G.canvasTexture(256, 256);
   let last = null;
   tex.set = (expr, blink = 0) => {
@@ -91,26 +91,13 @@ export function makeCharacter(kind = 'bix') {
   const L = arm(-1), Rr = arm(1);
   const legL = leg(-1), legR = leg(1);
 
-  // held props
-  let prop;
-  if (kind === 'bix') {
-    prop = new THREE.Group();
-    const bread = new THREE.Mesh(new THREE.CapsuleGeometry(0.17, 1.5, 6, 14), mat(0xd9963f, { roughness: 0.9 }));
-    bread.position.y = 0.75; bread.castShadow = true; prop.add(bread);
-    for (let i = 0; i < 4; i++) {
-      const cut = box(0.2, 0.05, 0.12, mat(0xf3d39a), 0.3 + i * 0.32); cut.position.z = 0.15; cut.rotation.x = 0.5; prop.add(cut);
-    }
-  } else {
-    prop = new THREE.Group();
-    prop.add(box(0.12, 0.3, 0.12, mat(0x5b3b22), 0.1));
-    prop.add(box(0.5, 0.1, 0.16, mat(0xd8b24a, { metalness: 0.7, roughness: 0.3 }), 0.28));
-    const blade = box(0.2, 1.5, 0.06, new THREE.MeshStandardMaterial({ color: 0x7ff5ff, emissive: 0x2fd8ff, emissiveIntensity: 1.6, roughness: 0.2 }), 1.08);
-    prop.add(blade);
-  }
-  prop.rotation.x = Math.PI / 2;  // held forward, pointing up after the arm raises
+  // held props: every character owns both a baguette and a crystal sword; pose({ propKind }) picks one
+  const baguette = makeBaguette();
+  const sword = makeSword();
+  const prop = new THREE.Group(); prop.add(baguette, sword);
   Rr.grip.add(prop);
 
-  const ch = { root, hips, neck, head, face, L, R: Rr, legL, legR, prop, kind };
+  const ch = { root, hips, neck, head, face, L, R: Rr, legL, legR, prop, kind, sword, baguette };
   // pose: angles in radians; all fields optional, everything reset each call
   ch.pose = (p = {}) => {
     root.position.set(p.x || 0, p.y || 0, p.z || 0);
@@ -124,12 +111,41 @@ export function makeCharacter(kind = 'bix') {
     Rr.sh.rotation.set(p.armR ?? -0.5, 0, p.armRout ?? 0.12);
     prop.rotation.set(Math.PI / 2 + (p.propPitch || 0), 0, 0);
     prop.visible = p.prop !== false;
+    const pk = p.propKind || (kind === 'bix' ? 'baguette' : 'sword');
+    baguette.visible = pk === 'baguette'; sword.visible = pk === 'sword';
     legL.rotation.set(p.legL || 0, 0, 0);
     legR.rotation.set(p.legR || 0, 0, 0);
     face.set(p.expr || 'happy', p.blink || 0);
   };
   ch.pose();
   return ch;
+}
+
+export function makeBaguette() {
+  const g = new THREE.Group();
+  const bread = new THREE.Mesh(new THREE.CapsuleGeometry(0.17, 1.5, 6, 14), mat(0xd9963f, { roughness: 0.9 }));
+  bread.position.y = 0.75; bread.castShadow = true; g.add(bread);
+  for (let i = 0; i < 4; i++) {
+    const cut = box(0.2, 0.05, 0.12, mat(0xf3d39a), 0.3 + i * 0.32); cut.position.z = 0.15; cut.rotation.x = 0.5; g.add(cut);
+  }
+  return g;
+}
+export function makeSword() {
+  const g = new THREE.Group();
+  g.add(box(0.12, 0.3, 0.12, mat(0x5b3b22), 0.1));
+  g.add(box(0.5, 0.1, 0.16, mat(0xd8b24a, { metalness: 0.7, roughness: 0.3 }), 0.28));
+  g.add(box(0.2, 1.5, 0.06, new THREE.MeshStandardMaterial({ color: 0x7ff5ff, emissive: 0x2fd8ff, emissiveIntensity: 1.6, roughness: 0.2 }), 1.08));
+  return g;
+}
+// blend two poses (numeric fields lerp, the rest switch at 0.5)
+export function mixPose(a, b, k) {
+  const o = {};
+  for (const key of new Set([...Object.keys(a), ...Object.keys(b)])) {
+    const x = a[key], y = b[key];
+    if (typeof x === 'number' || typeof y === 'number') o[key] = (x || 0) + ((y || 0) - (x || 0)) * k;
+    else o[key] = k < 0.5 ? (x ?? y) : (y ?? x);
+  }
+  return o;
 }
 
 // named poses used by the shot list

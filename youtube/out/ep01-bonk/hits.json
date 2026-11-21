@@ -1,0 +1,239 @@
+[
+ {
+  "beat": 0,
+  "t": 0.0021,
+  "label": "hook: swords gleam",
+  "sfx": "bell",
+  "opts": {
+   "pitch": "C7"
+  }
+ },
+ {
+  "beat": 0.25,
+  "t": 0.127,
+  "label": "caption line 1",
+  "sfx": "pop",
+  "opts": {
+   "pitch": "A5"
+  }
+ },
+ {
+  "beat": 1.5,
+  "t": 0.752,
+  "label": "caption line 2",
+  "sfx": "pop",
+  "opts": {
+   "pitch": "D6"
+  }
+ },
+ {
+  "beat": 3.4,
+  "t": 1.7021,
+  "label": "pan to Bix",
+  "sfx": "whoosh",
+  "opts": {
+   "len": 0.5
+  }
+ },
+ {
+  "beat": 4.5,
+  "t": 2.2521,
+  "label": "except me",
+  "sfx": "tok",
+  "opts": {
+   "pitch": "D4"
+  }
+ },
+ {
+  "beat": 5.5,
+  "t": 2.7521,
+  "label": "sad note",
+  "sfx": "tok",
+  "opts": {
+   "pitch": "C4"
+  }
+ },
+ {
+  "beat": 6.5,
+  "t": 3.2521,
+  "label": "sad note 2",
+  "sfx": "tok",
+  "opts": {
+   "pitch": "A3"
+  }
+ },
+ {
+  "beat": 8,
+  "t": 4.002,
+  "label": "drop: bix charges",
+  "sfx": "riser",
+  "opts": {
+   "len": 1.2
+  }
+ },
+ {
+  "beat": 8,
+  "t": 4.002,
+  "label": "drop impact",
+  "sfx": "impact"
+ },
+ {
+  "beat": 9,
+  "t": 4.502,
+  "label": "slime bonk 1",
+  "sfx": "thud",
+  "opts": {
+   "pitch": 110
+  }
+ },
+ {
+  "beat": 10,
+  "t": 5.002,
+  "label": "slime bonk 2",
+  "sfx": "thud",
+  "opts": {
+   "pitch": 98
+  }
+ },
+ {
+  "beat": 11,
+  "t": 5.502,
+  "label": "slime bonk 3",
+  "sfx": "thud",
+  "opts": {
+   "pitch": 86
+  }
+ },
+ {
+  "beat": 9.02,
+  "t": 4.512,
+  "label": "slime boing 1",
+  "sfx": "boing",
+  "opts": {
+   "pitch": "G4",
+   "to": "C4"
+  }
+ },
+ {
+  "beat": 10.02,
+  "t": 5.012,
+  "label": "slime boing 2",
+  "sfx": "boing",
+  "opts": {
+   "pitch": "G4",
+   "to": "C4"
+  }
+ },
+ {
+  "beat": 11.02,
+  "t": 5.512,
+  "label": "slime boing 3",
+  "sfx": "boing",
+  "opts": {
+   "pitch": "G4",
+   "to": "C4"
+  }
+ },
+ {
+  "beat": 11.5,
+  "t": 5.752,
+  "label": "slime splat",
+  "sfx": "pop",
+  "opts": {
+   "pitch": "C4"
+  }
+ },
+ {
+  "beat": 12,
+  "t": 6.002,
+  "label": "cut to boss",
+  "sfx": "sub",
+  "opts": {
+   "len": 0.6
+  }
+ },
+ {
+  "beat": 13,
+  "t": 6.502,
+  "label": "boss bonk 1",
+  "sfx": "thud",
+  "opts": {
+   "pitch": 70
+  }
+ },
+ {
+  "beat": 14,
+  "t": 7.002,
+  "label": "boss bonk 2",
+  "sfx": "thud",
+  "opts": {
+   "pitch": 62
+  }
+ },
+ {
+  "beat": 15,
+  "t": 7.502,
+  "label": "boss bonk 3",
+  "sfx": "thud",
+  "opts": {
+   "pitch": 54
+  }
+ },
+ {
+  "beat": 15.6,
+  "t": 7.802,
+  "label": "boss falls",
+  "sfx": "whoosh",
+  "opts": {
+   "len": 0.5,
+   "from": 1800,
+   "to": 300
+  }
+ },
+ {
+  "beat": 16,
+  "t": 8.0021,
+  "label": "boss lands",
+  "sfx": "impact"
+ },
+ {
+  "beat": 17,
+  "t": 8.5021,
+  "label": "sword drops",
+  "sfx": "bell",
+  "opts": {
+   "pitch": "E6"
+  }
+ },
+ {
+  "beat": 17.6,
+  "t": 8.8021,
+  "label": "sword hits ground",
+  "sfx": "click"
+ },
+ {
+  "beat": 20,
+  "t": 10.0021,
+  "label": "now everybody",
+  "sfx": "pop",
+  "opts": {
+   "pitch": "G5"
+  }
+ },
+ {
+  "beat": 21,
+  "t": 10.5021,
+  "label": "baguettes up",
+  "sfx": "coins"
+ },
+ {
+  "beat": 22,
+  "t": 11.0021,
+  "label": "little bonk",
+  "sfx": "boing",
+  "opts": {
+   "pitch": "C5",
+   "to": "G5"
+  }
+ }
+]
