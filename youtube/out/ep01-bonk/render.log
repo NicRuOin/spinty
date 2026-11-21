@@ -1,0 +1,2 @@
+rendering 720 frames (0-24.00s) 1080x1920 @ 30fps, 6 workers, motion blur on
+webgl: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)  (software: slow for 3-D films; on macOS drop --cpu)

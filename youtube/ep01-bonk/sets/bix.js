@@ -41,6 +41,16 @@ export function faceTexture(skin) {
         c.beginPath(); c.moveTo(52, 52); c.lineTo(100, 72); c.moveTo(204, 52); c.lineTo(156, 72); c.stroke();
         c.fillStyle = '#1b1320'; c.beginPath(); c.roundRect(84, 160, 88, 40, 14); c.fill();
         c.fillStyle = '#fff'; c.fillRect(96, 164, 64, 12);
+      } else if (expr === 'laugh') {
+        // squeezed ^ ^ eyes over a huge open mouth
+        c.fillStyle = skin; c.fillRect(40, 70, 180, 70); c.fillStyle = '#1b1320';
+        c.beginPath(); c.moveTo(58, 112); c.lineTo(80, 92); c.lineTo(102, 112); c.moveTo(154, 112); c.lineTo(176, 92); c.lineTo(198, 112); c.stroke();
+        c.beginPath(); c.moveTo(66, 150); c.lineTo(190, 150); c.quadraticCurveTo(128, 250, 66, 150); c.fill();
+        c.fillStyle = '#e8606a'; c.beginPath(); c.ellipse(128, 200, 30, 14, 0, 0, Math.PI * 2); c.fill();
+      } else if (expr === 'jaw') {
+        // eyes popped wide, mouth left to the dropping jaw geometry
+        c.fillStyle = '#fff'; [[78, 100], [178, 100]].forEach(([x, y]) => { c.beginPath(); c.arc(x, y, 30, 0, Math.PI * 2); c.fill(); });
+        c.fillStyle = '#1b1320'; [[78, 100], [178, 100]].forEach(([x, y]) => { c.beginPath(); c.arc(x, y, 10, 0, Math.PI * 2); c.fill(); });
       } else if (expr === 'shock') {
         c.beginPath(); c.ellipse(128, 182, 22, 28, 0, 0, Math.PI * 2); c.fill();
       } else {
@@ -89,6 +99,10 @@ export function makeCharacter(kind = 'bix') {
     return hp;
   };
   const L = arm(-1), Rr = arm(1);
+  // drop-jaw rig: a dark mouth slot that stretches down the front and a chin block at its end
+  const mouth = box(0.56, 1, 0.04, new THREE.MeshBasicMaterial({ color: 0x2a0d14 }), -0.5); mouth.position.set(0, 0.36, 0.46); neck.add(mouth);
+  const tongue = box(0.36, 0.1, 0.3, mat(0xe8606a), 0); neck.add(tongue);
+  const chin = box(0.82, 0.28, 0.82, skinM, -0.14); neck.add(chin);
   const legL = leg(-1), legR = leg(1);
 
   // held props: every character owns both a baguette and a crystal sword; pose({ propKind }) picks one
@@ -115,6 +129,12 @@ export function makeCharacter(kind = 'bix') {
     baguette.visible = pk === 'baguette'; sword.visible = pk === 'sword';
     legL.rotation.set(p.legL || 0, 0, 0);
     legR.rotation.set(p.legR || 0, 0, 0);
+    // jaw: 0 = closed (hidden), 1 = chin on the floor (neck sits ~2 units up)
+    const jl = (p.jaw || 0) * 2.05;
+    mouth.visible = chin.visible = tongue.visible = jl > 0.01;
+    mouth.scale.set(1, Math.max(0.001, jl), 1);
+    chin.position.set(0, 0.36 - jl, 0.05);
+    tongue.position.set(0, 0.36 - jl + 0.03, 0.2);
     face.set(p.expr || 'happy', p.blink || 0);
   };
   ch.pose();
@@ -150,6 +170,8 @@ export function mixPose(a, b, k) {
 
 // named poses used by the shot list
 export const POSES = {
+  laugh: { expr: 'laugh', lean: -0.22, headPitch: -0.3, armL: -1.45, armLout: 0.1, armR: -0.4 },
+  jaw: { expr: 'jaw', armL: -0.2, armLout: -0.35, armR: -0.2, armRout: 0.35, prop: false },
   idle: { expr: 'happy' },
   sad: { expr: 'sad', lean: 0.25, headPitch: 0.35, armR: 0.15, armL: 0.1, propPitch: -1.3 },
   swing: { expr: 'angry', twist: -0.5, armR: -2.9, armRout: 0.25, lean: -0.1, legL: 0.5, legR: -0.3, squash: -0.08 },
