@@ -22,3 +22,8 @@ Fix: Kamera-Matrix vor der Projektion aktualisieren, neue Kamera über die Schul
 ## Runde 2
 Probleme: (1) „HAHA“ am linken Rand abgeschnitten. (2) „a BAGUETTE?!“ links abgeschnitten. (3) Bonk-Szene zeigt Bix von hinten.
 Fix: Labels in den sicheren Bereich geklemmt, Bix dreht sich zur Kamera, Schleime näher an der Kamera.
+
+## Runde 3 (Endkontrolle v2)
+Datei: 1080×1920, 30 fps, 24,0 s, Ton −14,1 LUFS, Musik wird unter der Stimme leiser.
+Bewertung: Hook 8 · Verständlichkeit 8 · Lesbarkeit am Handy 8 · Bewegung 7 · Ton-Sync 8.
+Offen: zwei „HAHA“-Blasen überlappen sich am linken Rand; „a BAGUETTE?!“ wird kurz von Bewegungsunschärfe verwischt.

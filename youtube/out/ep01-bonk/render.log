@@ -1,2 +1,8 @@
 rendering 720 frames (0-24.00s) 1080x1920 @ 30fps, 6 workers, motion blur on
 webgl: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)  (software: slow for 3-D films; on macOS drop --cpu)
+  120/720 frames  0.7 fps  eta 13.7 min     240/720 frames  0.7 fps  eta 11.3 min     360/720 frames  0.7 fps  eta 8.3 min     480/720 frames  0.8 fps  eta 5.3 min     600/720 frames  0.8 fps  eta 2.6 min     720/720 frames  0.7 fps  eta 0.0 min   
+-> out/ep01-bonk/video_9x16.mp4  (16.2 min)
+27 sounds on 27 hits -> ep01-bonk/audio/sfx.wav  (peak -3.6 dBFS)
+mix: music +0 dB, sfx +0 dB, vo +2 dB, music ducked under vo
+master: -14.1 LUFS integrated, true peak -1.3 dBTP -> ep01-bonk/audio/mix.wav
+-> out/ep01-bonk/final.mp4
