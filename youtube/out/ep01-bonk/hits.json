@@ -1,7 +1,7 @@
 [
  {
   "beat": 1,
-  "t": 0.5019,
+  "t": 0.502,
   "label": "knight 1 sword shing",
   "sfx": "bell",
   "opts": {
@@ -10,7 +10,7 @@
  },
  {
   "beat": 3,
-  "t": 1.5019,
+  "t": 1.502,
   "label": "knight 2 sword shing",
   "sfx": "bell",
   "opts": {
@@ -19,7 +19,7 @@
  },
  {
   "beat": 5,
-  "t": 2.5019,
+  "t": 2.502,
   "label": "knight 3 sword shing",
   "sfx": "bell",
   "opts": {
@@ -28,7 +28,7 @@
  },
  {
   "beat": 1,
-  "t": 0.5019,
+  "t": 0.502,
   "label": "knight 1 pose whoosh",
   "sfx": "whoosh",
   "opts": {
@@ -37,7 +37,7 @@
  },
  {
   "beat": 3,
-  "t": 1.5019,
+  "t": 1.502,
   "label": "knight 2 pose whoosh",
   "sfx": "whoosh",
   "opts": {
@@ -46,7 +46,7 @@
  },
  {
   "beat": 5,
-  "t": 2.5019,
+  "t": 2.502,
   "label": "knight 3 pose whoosh",
   "sfx": "whoosh",
   "opts": {
@@ -54,8 +54,8 @@
   }
  },
  {
-  "beat": 12,
-  "t": 6.0019,
+  "beat": 8,
+  "t": 4.002,
   "label": "pan to the side",
   "sfx": "whoosh",
   "opts": {
@@ -65,8 +65,8 @@
   }
  },
  {
-  "beat": 14,
-  "t": 7.0019,
+  "beat": 10,
+  "t": 5.002,
   "label": "spotlight on Bix",
   "sfx": "thud",
   "opts": {
@@ -74,8 +74,8 @@
   }
  },
  {
-  "beat": 15,
-  "t": 7.5019,
+  "beat": 11,
+  "t": 5.502,
   "label": "arrow: baguette",
   "sfx": "pop",
   "opts": {
@@ -83,14 +83,14 @@
   }
  },
  {
-  "beat": 20,
-  "t": 10.0019,
+  "beat": 16,
+  "t": 8.002,
   "label": "knights turn",
   "sfx": "tick"
  },
  {
-  "beat": 21,
-  "t": 10.5019,
+  "beat": 17,
+  "t": 8.502,
   "label": "HA",
   "sfx": "pop",
   "opts": {
@@ -98,8 +98,8 @@
   }
  },
  {
-  "beat": 22,
-  "t": 11.0019,
+  "beat": 18,
+  "t": 9.002,
   "label": "HA",
   "sfx": "pop",
   "opts": {
@@ -107,8 +107,8 @@
   }
  },
  {
-  "beat": 23,
-  "t": 11.5019,
+  "beat": 19,
+  "t": 9.502,
   "label": "HA",
   "sfx": "pop",
   "opts": {
@@ -116,8 +116,8 @@
   }
  },
  {
-  "beat": 26,
-  "t": 13.0019,
+  "beat": 22,
+  "t": 11.002,
   "label": "Bix glares",
   "sfx": "riser",
   "opts": {
@@ -125,14 +125,14 @@
   }
  },
  {
-  "beat": 28,
-  "t": 14.0019,
+  "beat": 24,
+  "t": 12.002,
   "label": "drop",
   "sfx": "impact"
  },
  {
-  "beat": 30,
-  "t": 15.0019,
+  "beat": 26,
+  "t": 13.002,
   "label": "bonk 1",
   "sfx": "thud",
   "opts": {
@@ -140,8 +140,8 @@
   }
  },
  {
-  "beat": 32,
-  "t": 16.0019,
+  "beat": 28,
+  "t": 14.002,
   "label": "bonk 2",
   "sfx": "thud",
   "opts": {
@@ -149,8 +149,8 @@
   }
  },
  {
-  "beat": 34,
-  "t": 17.0019,
+  "beat": 30,
+  "t": 15.002,
   "label": "bonk 3",
   "sfx": "thud",
   "opts": {
@@ -158,8 +158,8 @@
   }
  },
  {
-  "beat": 30.02,
-  "t": 15.0119,
+  "beat": 26.02,
+  "t": 13.012,
   "label": "bonk boing 1",
   "sfx": "boing",
   "opts": {
@@ -168,8 +168,8 @@
   }
  },
  {
-  "beat": 32.02,
-  "t": 16.0119,
+  "beat": 28.020000000000003,
+  "t": 14.012,
   "label": "bonk boing 2",
   "sfx": "boing",
   "opts": {
@@ -178,8 +178,8 @@
   }
  },
  {
-  "beat": 34.02,
-  "t": 17.0119,
+  "beat": 30.020000000000003,
+  "t": 15.012,
   "label": "bonk boing 3",
   "sfx": "boing",
   "opts": {
@@ -188,8 +188,8 @@
   }
  },
  {
-  "beat": 36,
-  "t": 18.0019,
+  "beat": 32,
+  "t": 16.002,
   "label": "cut to knight",
   "sfx": "sub",
   "opts": {
@@ -197,8 +197,8 @@
   }
  },
  {
-  "beat": 38.6,
-  "t": 19.3019,
+  "beat": 34.6,
+  "t": 17.302,
   "label": "jaw slide",
   "sfx": "boing",
   "opts": {
@@ -207,8 +207,8 @@
   }
  },
  {
-  "beat": 39.6,
-  "t": 19.8019,
+  "beat": 35.6,
+  "t": 17.802,
   "label": "chin hits floor",
   "sfx": "thud",
   "opts": {
@@ -216,14 +216,14 @@
   }
  },
  {
-  "beat": 41,
-  "t": 20.5019,
+  "beat": 37,
+  "t": 18.502,
   "label": "swords drop",
   "sfx": "click"
  },
  {
-  "beat": 44,
-  "t": 22.0019,
+  "beat": 40,
+  "t": 20.002,
   "label": "now everybody",
   "sfx": "pop",
   "opts": {
@@ -231,8 +231,8 @@
   }
  },
  {
-  "beat": 45,
-  "t": 22.5019,
+  "beat": 41,
+  "t": 20.502,
   "label": "baguettes up",
   "sfx": "coins"
  }
