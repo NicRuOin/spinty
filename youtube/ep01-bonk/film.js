@@ -232,7 +232,7 @@ const CAM1 = [0, 2.4, 11.5, 0, 2.0, 0, 44];
 function camFor(shot, u) {
   if (shot === 1) {
     // slow push, then a slow drift close on the middle knight's sword
-    const k = E.inOutSine(prog(u, 0, 12));
+    const k = E.inOutSine(prog(u, 0, 8));
     return [lerp(0, 0.4, k), lerp(2.4, 2.6, k), lerp(11.5, 8.2, k), 0, lerp(2.0, 2.3, k), 0, 44];
   }
   if (shot === 2) {
@@ -332,10 +332,12 @@ function bonkWord(ctx, u, b, i) {
 
 M.film({
   fonts: [font(100, 900, DISPLAY)],
-  hits: HITS,
+  // shot 1 was cut from 12 to 8 beats: everything after beat 8 plays 4 beats earlier
+  hits: HITS.map(([b, ...r]) => [b >= 8 ? b - 4 : b, ...r]),
   samples: 3,
   async init() { await G.initGL(); S = world(); },
-  draw(ctx, u, t) {
+  draw(ctx, uPlay, t) {
+    const u = uPlay < 8 ? uPlay : uPlay + 4;   // story time (see hits above)
     const shot = shotAt(u);
     const shakes = [...SLIME_HITS, 28, JAW + 1];
     const last = shakes.filter((b) => u >= b).sort((a, b) => b - a)[0];
@@ -349,7 +351,7 @@ M.film({
 
     if (shot === 1) {
       POSE_BEATS.forEach((b, i) => sparkle(ctx, u, b + 0.1, S.knightHeads[i][0] + 60, S.knightHeads[i][1] - 90));
-      caption(ctx, u, ['in this server', 'everybody has a', ['DIAMOND SWORD', C.sword]], [0, 0.7, 4.2], { out: 11.4 });
+      caption(ctx, u, ['in this server', 'everybody has a', ['DIAMOND SWORD', C.sword]], [0, 0.7, 4.2]);
     }
     if (shot === 2) {
       const a = prog(u, 13.6, 14.4);
@@ -361,7 +363,7 @@ M.film({
     if (shot === 3) {
       [21, 22, 23].forEach((b, i) => {
         const [x, y] = S.knightHeads[i];
-        label(ctx, u, b, 'HAHA', clamp(x, W * 0.17, W * 0.83), y - 30 - 18 * Math.sin(u * Math.PI * 3 + i), C.white, 84, [-0.2, 0.05, 0.2][i]);
+        label(ctx, u, b, 'HAHA', W * (0.17 + 0.27 * i), y - 40 - 50 * (i % 2) - 18 * Math.sin(u * Math.PI * 3 + i), C.white, 70, [-0.2, 0.05, 0.2][i]);
       });
       caption(ctx, u, ['they laughed at me'], 23.6, { size: 92, y: H * 0.13 });
     }
